@@ -1,6 +1,8 @@
 // Import the functions you need from the SDKs you need
 import { initializeApp } from "firebase/app";
 import { getAnalytics } from "firebase/analytics";
+import { getFirestore } from "firebase/firestore";
+
 
 
 import { getMessaging , getToken} from "firebase/messaging";
@@ -20,6 +22,9 @@ const firebaseConfig = {
 // Initialize Firebase
 export const app = initializeApp(firebaseConfig);
 export const messaging =  getMessaging(app);
+
+
+
  export const tokeen =  async ()=>{
   console.log("LLAMANDO A L A FUNCION desde index.js firebase")
   const permission = await Notification.requestPermission();
@@ -41,3 +46,5 @@ export const messaging =  getMessaging(app);
 
     localStorage.setItem("Token" , token);
  }
+
+ export const db = getFirestore(app);

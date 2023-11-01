@@ -1,6 +1,6 @@
 
 import {IoHomeSharp} from "react-icons/io5";
-import {Bs0CircleFill} from "react-icons/bs";
+import {Bs0CircleFill ,  BsList} from "react-icons/bs";
 import { AppContext } from "../App";
 
 import React , {useContext} from 'react'
@@ -11,17 +11,26 @@ export default function Footer() {
     <div className="fixed h-16 w-full  bg-blue-400 bottom-0 flex justify-evenly
     item-center
    ">
-       <h1>Hola soy un Footer</h1>
-       <div className="bg-blue-300 text-4xl p-2 rounded-full text-pink-500"
+    
+       <div className="bg-blue-300 text-3xl p-2 m-2 rounded-full text-pink-500 cursor-pointer
+        hover:bg-sky-50  transition"
            onClick={() => setRoute("home")}
        >
        <IoHomeSharp />
        </div>
 
-       <div className="bg-blue-300 text-4xl p-2 rounded-full text-pink-500" 
+       <div className="bg-blue-300 text-3xl p-2 m-2 rounded-full text-pink-500 cursor-pointer
+       hover:bg-sky-50  transition" 
            onClick={() => setRoute("shooping")}
        >
        <Bs0CircleFill />
+       </div>
+
+       <div className="bg-blue-300 text-3xl p-2 m-2 rounded-full text-pink-500 cursor-pointer
+       hover:bg-sky-50  transition" 
+           onClick={() => setRoute("taskList")}
+       >
+       <BsList />
        </div>
    </div>
   )

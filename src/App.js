@@ -10,6 +10,7 @@ import { messaging , tokeen } from "./firebase/index";
 import { getToken } from "firebase/messaging";
 import { onMessage } from "firebase/messaging"; 
 import Footer from "./components/Footer";
+import TaskList from "./components/TaskList";
 
 export const AppContext = createContext(null);
 function App() {
@@ -39,6 +40,7 @@ const [user , setUser] = useState(null);
           {route ==="login" && <Login/>}
           {route === "register" && <Register/>}
           {route === "shooping" && <Shooping/>}
+          {route === "taskList" && <TaskList/>}
           {user && <p>Usuario logueado : {user.email}</p>}
       </main>
       <Footer/>
