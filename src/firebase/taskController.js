@@ -1,6 +1,6 @@
 //Archivo de toda la logica de base de datos CRUD
 import { db } from ".";
-import {collection , addDoc , getDocs, setDoc , doc } from "firebase/firestore";
+import {collection , addDoc , getDocs, setDoc , doc, deleteDoc } from "firebase/firestore";
 
 //AQUI ESTAMOS DICIENDO QUE AGREGE UNA NUEVO DOCUMENTO CON NOMBRE tasks,
 //NO IMPORTA SI EL DOCUMENTO NO EXITE, FIREBASE NOS LO CREA 
@@ -48,4 +48,12 @@ export const updateTask = async (task) => {
         description: task.description
     });
     console.log("La tarea editada es ", task);
+}
+
+export const removeTask = async (id) =>{
+    try{
+        await deleteDoc(doc(db , "tasks" , id))
+    }catch(error){
+        console.log("El error es " , error)
+    }
 }

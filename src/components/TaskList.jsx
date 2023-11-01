@@ -4,7 +4,9 @@ import {AiFillEdit} from "react-icons/ai"
 import {AiFillDelete} from "react-icons/ai"
 import React , {useContext , useState , useEffect} from 'react'
 import { db } from "../firebase";
-import { addNewTask, getTask , updateTask} from "../firebase/taskController";
+import { addNewTask, getTask , removeTask, updateTask} from "../firebase/taskController";
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 export default function TaskList() {
     const {setRoute} = useContext(AppContext);
@@ -20,6 +22,39 @@ export default function TaskList() {
        await addNewTask(task);
        setTask({title : "" , description :""});
     }
+
+    const deleteTaskWithConfirmation = (id) => {
+        toast.warning(
+          <div className="text-center p-2">
+            <p>¿Estás seguro de que deseas borrar esta tarea?</p>
+            <button
+              onClick={() => {
+                deleteTask(id); // Elimina la tarea cuando se hace clic en el botón de confirmación
+                toast.dismiss(); // Cierra el toast
+              }}
+              className="bg-red-500 text-white py-2 px-4 rounded-md m-2"
+            >
+              Sí
+            </button>
+            <button
+              onClick={() => toast.dismiss()} // Cierra el toast sin borrar la tarea
+              className="bg-blue-500 text-white py-2 px-4 rounded-md m-2"
+            >
+              No
+            </button>
+          </div>,
+          {
+            position: "top-center",
+            autoClose: false,
+            closeOnClick: false,
+            closeButton: false,
+            draggable: false,
+            progress: undefined,
+            pauseOnHover: false,
+          }
+        );
+      };
+    
 
     const editTask = async (id) =>{
             setMode("update");
@@ -41,7 +76,7 @@ export default function TaskList() {
     }
 
     const deleteTask = async (id) =>{
-
+       await removeTask(id);
     }
 
      useEffect (()=>{
@@ -94,8 +129,9 @@ export default function TaskList() {
                         
                         <button 
                         className="text-2xl hover:bg-sky-300  hover:text-black transition p-2 text-red-800"
-                            onClick={ () => {deleteTask(task.id)}}
+                        onClick={() => deleteTaskWithConfirmation(task.id)}
                         > <AiFillDelete/> </button>
+                         <ToastContainer />
                      </div>
                 </div>)}
             </div>
