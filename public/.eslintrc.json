@@ -1,0 +1,9 @@
+{
+    "globals": {
+      "importScripts": true
+    },
+    "rules": {
+      // Aquí puedes configurar otras reglas de ESLint según tus necesidades.
+    }
+  }
+  
