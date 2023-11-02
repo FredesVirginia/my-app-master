@@ -10,7 +10,7 @@ export const addNewTask = async (task)=>{
     const result = await addDoc(collection(db , "tasks") , task);
     console.log("La nueva tareas agregada fue  = " , result);
    }catch(error){
-    console.error("OOh ocurrio un error en addNewTask = " , task)
+   
    }
 }
 

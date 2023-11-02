@@ -5,10 +5,15 @@ import {AiFillDelete} from "react-icons/ai"
 import React , {useContext , useState , useEffect} from 'react'
 import { db } from "../firebase";
 import { addNewTask, getTask , removeTask, updateTask} from "../firebase/taskController";
-import { ToastContainer, toast } from 'react-toastify';
+import { ToastContainer} from 'react-toastify';
+import toast from 'react-hot-toast';
+
+
 import 'react-toastify/dist/ReactToastify.css';
 
 export default function TaskList() {
+ 
+  const {user} = useContext(AppContext);
     const {setRoute} = useContext(AppContext);
     const [task , setTask] = useState({
         title: "" , 
@@ -17,10 +22,13 @@ export default function TaskList() {
 
     const [tasks , setTasks] = useState([]);
     const [mode , setMode] = useState("add");
+
     const createNewTask = async () =>{
         console.log(task);
-       await addNewTask(task);
-       setTask({title : "" , description :""});
+       
+          await addNewTask(task);
+          setTask({title : "" , description :""});
+       
     }
 
     const deleteTaskWithConfirmation = (id) => {
@@ -79,6 +87,8 @@ export default function TaskList() {
        await removeTask(id);
     }
 
+    
+
      useEffect (()=>{
             getTask()
              .then((t) =>setTasks([...t]))
@@ -86,13 +96,27 @@ export default function TaskList() {
 
      }, [tasks]);
 
+
+     useEffect(() => {
+      // Verificar si el usuario está logueado
+      if (!user) {
+        toast(` Necesitas Loguearte`);
+        console.log("NO SE LOGEO");
+      } else {
+        toast("PUEDES CREAR TAREAS");
+      }
+    }, [user]);
+
+
+
+
   return (
     <div> 
         <h1 className="text-sky-700 font-semibold text-1g"
         
         > Estas en Task List </h1>
         <div className="flex flex-col gap-4">
-            <h2>Nueva Tarea</h2>
+            <h2>Nueva Tareaaaaaa</h2>
             <input type = "text"
             placeholder="Titulo"
             className="border shadow outline-none focus:ring ring-sky-200 rounded px-2 py-1 w-full"
@@ -107,7 +131,10 @@ export default function TaskList() {
             >
 
             </textarea>
-            <button
+             {user ? ( 
+                <>
+                
+                <button
                 onClick={operarTask}
                 className="bg-sky-400 text-white rounded shadow py-1 hover:bg-sky-500 transition font-semibold"
                 >  
@@ -115,8 +142,7 @@ export default function TaskList() {
                {mode === "add" ? "Añadir" : "Editar"}
                 
                 </button>
-
-            <div className="grid grid-cols-2 md:grid-cols-3 gap-4"> 
+                <div className="grid grid-cols-2 md:grid-cols-3 gap-4"> 
                 {tasks.map (task =>  <div key = {task.id} className="rounded-lg border border-sky-300 p-4 flex flex-col gap-2">
                     <h1 className="font-semibold">{task.title}</h1>
                     <div className="border-t border-sky-300"></div>
@@ -135,6 +161,22 @@ export default function TaskList() {
                      </div>
                 </div>)}
             </div>
+                </>
+                
+                
+                
+                
+                ) : 
+               ( 
+                 <button 
+                  className=" bg-orange-400 text-white text-bold hover:bg-orange-600  transition"
+                 onClick={() => setRoute("login")}>Login</button>
+              
+               )
+                
+                }
+
+            
            
         </div>
    </div>
